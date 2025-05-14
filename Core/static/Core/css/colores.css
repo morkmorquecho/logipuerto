@@ -1,0 +1,12 @@
+/* static/css/paleta.css */
+:root {
+    --bs-primary: #1f2e4d;
+    --bs-secondary: #f39c12;
+    --bs-success: #2ecc71;
+    --bs-danger: #e74c3c;
+    --bs-warning: #f1c40f;
+    --bs-info: #3498db;
+    --bs-light: #ecf0f1;
+    --bs-dark: #2d3436;
+  }
+  

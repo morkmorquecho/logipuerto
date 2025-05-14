@@ -1,0 +1,57 @@
+{% extends 'Core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'Core/css/inicio.css' %}">
+{% endblock %} 
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Tarjeta 1 -->
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 hover-card">
+                <img src="{% static 'Core/img/ferro.png' %}" class="card-img-top" alt="Card 1">
+                <div class="card-body">
+                    <h5 class="card-title">Ferrocarril Directo</h5>
+                    <p class="card-text">Descripción ....</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+        </div>
+
+        <!-- Tarjeta 2 -->
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 hover-card">
+                <img src="{% static 'Core/img/AgenciaA.png' %}" class="card-img-top" alt="Card 2">
+                <div class="card-body">
+                    <h5 class="card-title">Agenciamiento Aduanal</h5>
+                    <p class="card-text">Descripción...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+        </div>
+
+        <!-- Tarjeta 3 -->
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 hover-card">
+                <img src="{% static 'Core/img/camion.png' %}" class="card-img-top" alt="Card 3">
+                <div class="card-body">
+                    <h5 class="card-title">Camion</h5>
+                    <p class="card-text">Descripción...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+
+</style>
+{% endblock %}

@@ -25,7 +25,12 @@ SECRET_KEY = 'django-insecure-ze2_fh(i#81t#xjt-hmk(5lzdc@a14_g_tv@z3357vvaz52h_g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '192.168.137.1',
+    '172.20.81.29',  # <-- Agrega esta línea
+]
 
 
 # Application definition
@@ -38,10 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Autenticacion',
-    'Control', 
+    'Core', 
     'crispy_forms',
     'crispy_bootstrap5',
-    
+    'Clientes',
+    'Servicios',
 ]
 
 MIDDLEWARE = [
@@ -83,7 +89,18 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mssql',  # Usa 'sql_server.pyodbc' si utilizas django-pyodbc-azure
+#         'NAME': 'Logipuerto_2',
+#         'USER': 'sa',
+#         'PASSWORD': 'Sabino11.',
+#         'HOST': 'PCD010',
+#         'OPTIONS': {
+#             'driver': 'ODBC Driver 17 for SQL Server',  # Especifica tu versión de driver
+#         },
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -121,17 +138,19 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Asegúrate de que esta ruta sea correcta
-]
+# STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'home'  # A dónde redirigir después de iniciar sesión
+LOGIN_REDIRECT_URL = 'inicio'  # A dónde redirigir después de iniciar sesión
 LOGOUT_REDIRECT_URL = 'login'  # A dónde redirigir después de cerrar sesión
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = ["bootstrap5"] 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+LOGIN_URL = '/autenticacion/login/'
+
+LOGOUT_REDIRECT_URL = '/'

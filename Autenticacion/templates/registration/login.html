@@ -1,6 +1,8 @@
 {% load static %}
+{% load MensajesTags %}
+
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<link rel="stylesheet" href="{% static 'Autenticacion/css/login.css' %}">
 
 {% endblock %}
 {% block content %}
@@ -11,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 </head>
-<body>
+<body style="background-image: url('{% static "Autenticacion/img/fondo2.jpg" %}');">
     <canvas id="mimapa" width="1920" height="1080"></canvas>
 
     <div class="container">
@@ -24,7 +26,7 @@
                 <form action="" method="post">
                     {% csrf_token %}
                     <div class="form-group">
-                        <img src="{% static 'img/logipuerto.png' %}" alt="Logo" class="logo">
+                        <img src="{% static 'Autenticacion/img/logipuerto.png' %}" alt="Logo" class="logo">
 
                         <label for="username">Nombre de usuario</label>
                         <input type="text" name="username" id="username" class="form-control" 
@@ -36,8 +38,22 @@
                                placeholder="Ingresa tu contraseña" required>
                     </div>
                     <button type="submit" class="btn">Acceder</button>
+
+                    {% comment %} {% RenderMensajesDjango%} {% endcomment %}
                 </form> 
                 
+                {% if form.errors %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                Nombre de usuario o contraseña incorrectos
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {%endif%}
+
                 <div class="links">
                     <p><a href="#">¿Olvidaste tu contraseña?</a></p>
                 </div>
@@ -52,16 +68,23 @@
                   
                   // Coordenadas originales
                   const originalCoords = {
-                      //puertoA: { x: 423, y: 550 },
-                      puertoA: { x: 427, y: 630 },
-                      puertoB: { x: 1525, y: 488 },
-                      puertoC: { x: 366, y: 488 },
-                      puertoD: { x: 1360, y: 571 },
-                      puertoE: { x: 244, y: 373 },
-                      puertoF: { x: 1143, y: 377 },
-                      puertoG: { x: 629, y: 701 },
-                      puertoH: { x: 512, y: 632 },
-                      puertoI: { x: 1079, y: 429 }
+                      puertoA: { x: 422, y: 620 },
+                      puertoGuayaquil: { x: 515, y: 715 },
+                      puertoAguadulce: { x: 520, y: 688 },
+                      puertoCentroAmerica: { x: 501, y: 665 },
+                      puertoSaupe: { x: 665, y: 720 },
+                      puertoBrazil: { x: 622, y: 820 },
+                      puertoPlata: { x: 595, y: 838 },
+                      puertoMadagascar: { x: 1240, y: 815 },
+
+                      puertoConge: { x: 1121, y: 740 },
+                      puertoOne: { x: 1245, y: 811 },
+                      puertoAustralia: { x: 1587, y: 893 },
+                      puertoNewZelanda: { x: 1592, y: 768 },
+                      puertoIndonesia: { x: 1510, y: 695 },
+                      puertoEuropaN: { x: 1143, y: 450 },
+                      puertoChina: { x: 1504, y: 550 },
+                      puertoNuevaGuinea: { x: 1461, y: 768 },
                   };
                   
                   console.log("Ancho de la página:", window.innerWidth, "px");
@@ -69,14 +92,21 @@
 
                   // Lista de rutas animadas con valores originales
                   const rutasOriginales = [
-                      { origen: 'puertoA', destino: 'puertoB', color: "#f2482a", altura: 400, grosor: 3, t: 0.5 },
-                      { origen: 'puertoA', destino: 'puertoC', color: "#f39d13", altura: 80,  grosor: 2, t: 0.4 },
-                      { origen: 'puertoA', destino: 'puertoD', color: "#fac495", altura: 150, grosor: 3, t: 0.7 },
-                      { origen: 'puertoA', destino: 'puertoE', color: "#f2482a", altura: 120, grosor: 1, t: 0.2 },
-                      { origen: 'puertoA', destino: 'puertoF', color: "#f39d13", altura: 180, grosor: 2, t: 0.5 },
-                      { origen: 'puertoA', destino: 'puertoG', color: "#f2482a", altura: 100, grosor: 2, t: 0.3 },
-                      { origen: 'puertoA', destino: 'puertoH', color: "#fac495", altura: 80, grosor: 2, t: 0.1 },
-                      { origen: 'puertoA', destino: 'puertoI', color: "#f39d13", altura: 100, grosor: 3, t: 0.1 }
+                      { origen: 'puertoA', destino: 'puertoGuayaquil', color: "#f2482a", altura: -25, grosor: 1, t: 0.5 },
+                      //{ origen: 'puertoA', destino: 'puertoAguadulce', color: "#f39d13", altura: 55,  grosor: 2, t: 0.4 },
+                      //{ origen: 'puertoA', destino: 'puertoCentroAmerica', color: "#fac495", altura: 80, grosor: 3, t: 0.1 },
+                      { origen: 'puertoA', destino: 'puertoSaupe', color: "#f39d13", altura: -10, grosor: 1, t: 0.2 },
+                      //{ origen: 'puertoA', destino: 'puertoBrazil', color: "#fac495", altura: 5, grosor: 1, t: 0.7 },
+                      { origen: 'puertoA', destino: 'puertoPlata', color: "#f39d13", altura: -100, grosor: 2, t: 0.5 },
+                      { origen: 'puertoA', destino: 'puertoMadagascar', color: "#f2482a", altura: -200, grosor: 2, t: 0.3 },
+                      { origen: 'puertoA', destino: 'puertoConge', color: "#f39d13", altura: 100, grosor: 3, t: 0.1 },
+                      { origen: 'puertoA', destino: 'puertoAustralia', color: "#fac495", altura: -380, grosor: 3, t: 0.3 },
+                      { origen: 'puertoA', destino: 'puertoNewZelanda', color: "#f39d13", altura: -350, grosor: 2, t: 0.3 },                      
+                      { origen: 'puertoA', destino: 'puertoIndonesia', color: "#f2482a", altura: 150, grosor: 3, t: 0.1 },
+                      { origen: 'puertoA', destino: 'puertoEuropaN', color: "#f2482a", altura: 250, grosor: 3, t: 1 },
+                      { origen: 'puertoA', destino: 'puertoChina', color: "#fac495", altura: 150, grosor: 3, t: 1 },
+                      { origen: 'puertoA', destino: 'puertoNuevaGuinea', color: "#fac495", altura: -50, grosor: 2, t: 1 },
+
                   ];
                   
                   let rutas = [];
@@ -145,7 +175,7 @@
                           ctx.stroke();
                     
                           // Dibuja el punto animado
-                          const punto = puntoEnCurva(ruta.t, ruta.origen, ruta.destino, ruta.altura);
+                          const punto = puntoEnCurva(ruta.t, ruta.destino,ruta.origen, ruta.altura);
                           ctx.beginPath();
                           ctx.arc(punto.x, punto.y, 4, 0, Math.PI * 2);
                           ctx.fillStyle = ruta.color;
@@ -165,10 +195,39 @@
                   window.addEventListener('resize', ajustarCanvas);
                   ajustarCanvas(); // Configuración inicial
                   animar(); // Iniciar la animación
+
+
+                  function actualizarFondo() {
+                    const mimapa = document.getElementById('mimapa');
+                    const ancho = window.innerWidth;
+                    const alto = window.innerHeight;
+                    const aspectRatio = ancho / alto;
+                    const originalRatio = 2.03;
+                    const tolerancia = 0.3;
+                
+                    const diferencia = Math.abs(aspectRatio - originalRatio);
+                
+                    if (diferencia > tolerancia) {
+                      mimapa.classList.add('oculto');
+                    } else {
+                      mimapa.classList.remove('oculto');
+                    }
+                  }
+                
+                  // Ejecutar al cargar y al redimensionar
+                  window.addEventListener('load', actualizarFondo);
+                  window.addEventListener('resize', actualizarFondo);
               </script> 
                   
             </div>
         </div>
     </div>
 </body>
+    {% block ExtrasJS %}
+        <script>
+            var mensaje = "{{ mensaje }}";
+        </script>
+        <script src="{% static 'Core/js/sweetalert2.all.min.js' %}"></script>
+        <script src="{% static 'Core/js/SweetAlert2.js' %}"></script>
+    {% endblock ExtrasJS %}
 {% endblock %}

@@ -1,0 +1,19 @@
+:root {
+    --cinnabar: #f24a2cff;
+    --gamboge: #f39d13ff;
+    --peach: #fac495ff;
+    --color1: #F46B52;
+    --color2: #F47C66;
+}
+
+ 
+
+.hover-card:hover {
+    transform: scale(1.08);
+    transition: transform 1.5s ease, background-color 0.3s ease;
+    background-color: var(--cinnabar);
+}
+
+.card-img-top {
+    padding: 15%; /* Usar porcentaje es más responsive */
+}

@@ -1,0 +1,100 @@
+/*.d-flex.flex-column.flex-shrink-0.p-3.text-bg-dark {
+    height: 100%; 
+    position: absolute; 
+    top: 8vh;
+    left: 0;
+}*/
+
+/* Estilos para el sidebar - añadir a tu archivo CSS */
+
+
+  
+.sidebar-container {
+    max-width: 150vh; /* O un ancho específico */
+  }
+
+  .page-container {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+  }
+  
+  .content-wrapper {
+    display: flex;
+    flex: 1;
+  }
+  
+  .sidebar {
+    min-width: 30%; /* Ajusta el ancho mínimo al 20% del contenedor */
+    background: #7386D5;
+    color: #fff;
+    transition: all 0.3s;
+  }
+  
+  .sidebar.active {
+    margin-left: -250px;
+  }
+  
+  .sidebar .sidebar-header {
+    padding: 20px;
+    background: #6d7fcc;
+  }
+  
+  .sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+  }
+  
+  .sidebar ul p {
+    color: #fff;
+    padding: 10px;
+  }
+  
+  .sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .sidebar ul li a:hover {
+    color: #7386D5;
+    background: #fff;
+  }
+  
+  .sidebar ul li.active > a,
+  a[aria-expanded="true"] {
+    color: #fff;
+    background: #6d7fcc;
+  }
+  
+  ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
+  }
+  
+  /* Ajustes para pantallas pequeñas */
+  @media (max-width: 768px) {
+    .sidebar {
+      margin-left: -250px;
+    }
+    .sidebar.active {
+      margin-left: 0;
+    }
+    #sidebarCollapse span {
+      display: none;
+    }
+  }
+  
+  #sidebarCollapse {
+    display: none;
+  }
+  
+  @media (max-width: 768px) {
+    #sidebarCollapse {
+      display: block;
+    }
+  }
+  

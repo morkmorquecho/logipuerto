@@ -1,0 +1,126 @@
+        /* Reseteo básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+
+        /* Contenedor principal */
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+        }
+        
+        /* Tarjeta de formulario */
+        .login-card {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 4px 12px #f39d13;
+            overflow: hidden;
+        }
+
+        
+        .logo {
+            max-width: 100%; /* Ajusta el tamaño de la imagen al contenedor */
+            height: auto; /* Mantiene la proporción de la imagen */
+            margin-bottom: 20px; /* Espaciado debajo de la imagen */
+        }
+
+        /* Cabecera */
+        .card-header {
+            background-color: #f2482a;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .card-header h2 {
+            font-weight: 500;
+            font-size: 1.5rem;
+        }
+        
+        /* Cuerpo del formulario */
+        .card-body {
+            padding: 30px;
+        }
+        
+        /* Estilos para el formulario */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            background-color: #f7f7f7;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            color: #333;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #615f60;
+            outline: none;
+        }
+        
+        /* Botón */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: rgb(231, 137, 122);
+            color: white !important;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: #f2482a;
+        }
+        
+        /* Mensaje de error */
+        .alert {
+            background-color: #ffcccb;
+            color: #990000;
+            border: 1px solid #990000;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        /* Enlaces */
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .links a {
+            color: #5f5c5f;
+            text-decoration: none;
+        }
+        
+        .links p{
+            margin-bottom: 0.5rem;
+
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }

@@ -1,0 +1,65 @@
+/* $color-primario: #f24a2c;
+F39D13
+FAC495
+F46B52
+F47C66 */
+
+ /* base  */
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8f9fa;
+        color: #212529;
+        line-height: 1.6;
+        height: 50%;
+        margin: 0; 
+        overflow: hidden;
+    }
+    
+    .navbar {
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        background-color: white;
+    }
+    
+    .navbar-brand {
+        font-weight: 600;
+        letter-spacing: -0.5px;
+    }
+    
+    .footer {
+        padding: 1.5rem 0;
+        background-color: white;
+        border-top: 1px solid rgba(0,0,0,0.05);
+        margin-top: 2rem;
+    }
+    
+    .main-content {
+        min-height: calc(100vh - 160px);
+    }
+    
+    .card {
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        transition: all 0.2s ease;
+    }
+    
+    .card:hover {
+        box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        transform: translateY(-2px);
+    }
+    
+    .btn-primary {
+        background-color: #3B82F6;
+        border-color: #3B82F6;
+        border-radius: 6px;
+        padding: 0.5rem 1.25rem;
+        font-weight: 500;
+    }
+    
+    .btn-outline-primary {
+        color: #3B82F6;
+        border-color: #3B82F6;
+        border-radius: 6px;
+        padding: 0.5rem 1.25rem;
+        font-weight: 500;
+    }
