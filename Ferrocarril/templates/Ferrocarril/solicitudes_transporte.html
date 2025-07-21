@@ -1,0 +1,156 @@
+{% extends "Core/base.html" %}
+{% load static %}
+{% block title %}Solicitudes Transporte Ferro - Logipuerto{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'Ferrocarril/css/solicitudes_transporte.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-header">
+        <h1 class="form-title">Registro de la solicitud</h1>
+        <p class="form-description">Ingresa los datos necesarios de cada contenedor para realizar la solicitud de transporte</p>
+    </div>
+
+    <form method="post" id="listForm" class="list-form">
+        {% csrf_token %}
+        {{ formset.management_form }}
+
+        <div class="form-table">
+            <div class="table-header">
+                <div class="header-cell header-number">#</div>
+                <div class="header-cell header-name">Contenedor</div>
+                <div class="header-cell header-sku">Clave producto sat</div>
+                <div class="header-cell header-category">Tipo Material</div>
+                <div class="header-cell header-price">Cantidad</div>
+                <div class="header-cell header-stock">Patente</div>
+                <div class="header-cell header-cliente">Cliente</div>
+                <div class="header-cell header-actions">Acciones</div>
+            </div>
+
+            <div class="form-rows">
+                {% for form, contenedor in formset_contenedores %}
+                <div class="form-row" data-row="{{ forloop.counter }}">
+
+                    <div class="row-cell cell-number">
+                        <span class="row-number">{{ forloop.counter }}</span>
+                    </div>
+
+                    <div class="row-cell">
+                        <p> {{contenedor}} </p>
+                    </div>
+
+                    <div class="row-cell" data-form-index="{{ forloop.counter0 }}">
+                        {{ form.clave_producto_sat }}
+                        {{ form.clave_producto_sat.errors }}  
+                        <ul class="resultados-list list-group" style="z-index: 1050;"></ul>                      
+                    </div> 
+                    
+
+                    <div class="row-cell">
+                        {{ form.tipo_material }}
+                        {{ form.tipo_material.errors }}
+                    </div>
+
+                    <div class="row-cell">
+                        {{ form.cantidad }}
+                        {{ form.cantidad.errors }}
+                    </div>
+                    <div class="row-cell">
+                        {{ form.patente }}
+                        {{ form.patente.errors }}
+                    </div>
+                    <div class="row-cell">
+                        <p>pepe</p>
+                    </div>
+                    <div class="row-cell">
+                        <button type="button" class="action-btn remove-btn" onclick="removeRow(this)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="reset" class="btn btn-secondary">
+                <i class="fas fa-eraser"></i> Limpiar
+            </button>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Guardar Productos
+            </button>
+        </div>
+    </form>
+</div>
+
+{% block ExtrasJS %}
+<script src="{% static 'Core/js/targets.js' %}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
+
+<script>
+    let catalogo = [];
+    let fuse;
+
+    fetch("{% static 'core/json/catalogo_sat.json' %}")
+        .then(response => response.json())
+        .then(data => {
+            catalogo = data;
+            fuse = new Fuse(catalogo, {
+                keys: ['codigo'],
+                threshold: 0.1
+            });
+        });
+
+    // Usar delegación de eventos para manejar todos los inputs
+    document.addEventListener('input', (e) => {
+        if (e.target.classList.contains('clave-producto-input')) {
+            const input = e.target;
+            const container = input.closest('[data-form-index]');
+            const resultados = container.querySelector('.resultados-list');
+            
+            const query = input.value.trim();
+            resultados.innerHTML = "";
+
+            if (!query || !fuse) return;
+
+            const matches = fuse.search(query).slice(0, 10);
+
+            matches.forEach(match => {
+                const li = document.createElement("li");
+                li.className = "list-group-item list-group-item-action";
+                li.textContent = `${match.item.codigo} - ${match.item.descripcion}`;
+                li.addEventListener("click", () => {
+                    input.value = match.item.codigo;
+                    resultados.innerHTML = "";
+                });
+                resultados.appendChild(li);
+            });
+        }
+    });
+
+    // Ocultar lista si el usuario hace clic fuera
+    document.addEventListener("click", (e) => {
+        document.querySelectorAll('.resultados-list').forEach(lista => {
+            const container = lista.closest('[data-form-index]');
+            const input = container.querySelector('.clave-producto-input');
+            if (!input.contains(e.target) && !lista.contains(e.target)) {
+                lista.innerHTML = "";
+            }
+        });
+    });
+</script> 
+
+<script>
+function removeRow(button) {
+    const row = button.closest('.form-row');
+    if (document.querySelectorAll('.form-row').length > 1) {
+        row.remove();
+    }
+}
+</script>
+{% endblock ExtrasJS %}
+{% endblock %}

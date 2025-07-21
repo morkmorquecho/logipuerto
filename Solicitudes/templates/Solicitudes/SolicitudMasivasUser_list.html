@@ -1,0 +1,149 @@
+{% extends 'Core/base.html' %}
+{% load static %}
+
+{% block extra_css %}  
+<link rel="stylesheet" href="{% static 'Core/css/list_view.css' %}">
+<link rel="stylesheet" href="{% static 'Core/css/pantalla_carga.css' %}">
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <h2 class="page-header">Lista de Solicitudes Masivas</h2>
+
+    <div class="filters-section">
+        <form method="get" class = form-field input>
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="searchInput" name="q" class="form-control" placeholder="Buscar por id, fecha" value="{{ request.GET.q }}">
+                    <button type="submit" class="search-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        </button>
+                    </div>
+                </div>
+        </form>
+        
+        <form method="GET" action="" class="filters-container">
+            <div class="filters-container">
+                <!-- Filtro por tipo de servicios -->
+                <select class="filter-select" id="countryFilter" name="servicio">
+                    <option value="">Todos los servicios</option>
+                    {% for servicio in TiposDeServicios %}
+                    <option value="{{ servicio.servicio }}">{{ servicio.servicio }}</option>
+                    {% endfor %}
+                </select>
+                
+                <!-- Filtro por tipo de segregacion -->
+                <select class="filter-select" id="statusFilter" name="segregacion">
+                    <option value="">Tipos de Segregacion</option>
+                    {% for tipo in TiposDeSegregacion %}
+                    <option value="{{ tipo }}">{{ tipo }}</option>
+                    {% endfor %}
+                </select>
+
+                
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <button class="btn btn-secondary" id="clearFilters">Limpiar</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tabla de resultados -->
+    <div class="table-container">
+        <div class="table-wrapper">
+            <table class="generic-table">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Tipo de Segregación</th>
+                        <th>Servicio</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for solicitud in solicitudes_masivas %}
+                    <tr class="data-row" data-status="blocked">
+                        <td>{{ solicitud.id}}</td>
+                        <td>{{ solicitud.tipo_segregacion}}</td>
+                        <td>{{ solicitud.servicio }}</td>
+                        <td>{{ solicitud.fecha_creacion|date:"d/m/Y - h:i A" }}</td>
+
+                        <td class="actions-container">
+                                <a href="{{ solicitud.excel.url }}" class="btn green-btn action-btn" title="Descargar excel" download>
+                                    <i class="fa-solid fa-file-excel"></i>
+                                </a>
+
+                                {% comment %} <button class="btn blue-btn action-btn" title="Solicitudes Individuales" 
+                                    onclick="window.location.href='{% url 'ferrocarril:ferrocarril_solicitud_individual_ver' solicitud.pk %}'">
+                                    <i class="fas fa-file-alt"></i>                                                        
+                                </button>  {% endcomment %}
+
+                                <button class="btn blue-btn action-btn loader-trigger" title="Solicitudes Individuales"
+                                    onclick="loadingPage(); window.location.href='{% url 'ferrocarril:ferrocarril_solicitud_individual_ver' solicitud.pk %}'">
+                                    <i class="fas fa-file-alt"></i>
+                                </button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">No hay solicitudes</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% if is_paginated %}
+    <div class="pagination-container">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li>
+                <a class="pagination-btn" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" aria-label="First">
+                    &laquo;&laquo;
+                </a>
+            </li>
+            <li>
+                <a class="pagination-btn" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" aria-label="Previous">
+                    &laquo;
+                </a>
+            </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li><a class="pagination-btn active" href="#">{{ num }}</a></li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li><a class="pagination-btn" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li>
+                <a class="pagination-btn" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" aria-label="Next">
+                    &raquo;
+                </a>
+            </li>
+            <li>
+                <a class="pagination-btn" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" aria-label="Last">
+                    &raquo;&raquo;
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    {% endif %}
+
+{% block ExtrasJS %}
+
+{% endblock ExtrasJS %}
+
+{% endblock %}
+
+

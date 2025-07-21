@@ -1,0 +1,63 @@
+{% extends 'Core/base.html' %}
+{% load static %}
+{% load MensajesTags %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'Core/css/form.css' %}">
+<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="container">
+        <div class="login-card">
+            <div class="card-header">
+                <h2>Documentos - Paso 5 de 5</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ wizard.management_form }}
+                    {{ wizard.form.as_p }}
+                    <div class="button-group">
+
+                    <button type="submit" name="wizard_prev_step" value="{{ wizard.steps.prev }}" class="btn btn-secondary">
+                        Anterior
+                    </button>
+                    <button type="submit" class="btn">Finalizar</button>
+                    </div>
+                    {% comment %} 
+                    {% if form.errors %}
+                    <div class="alert alert-warning" role="alert">
+                        {{form.errors}}
+                    </div>
+                    {% endif %} {% endcomment %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% RenderMensajesSweetAlert %}
+
+
+<script>        
+    var mensaje = "{{ mensaje }}";
+  </script>
+  <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+  
+  <script>
+      FilePond.setOptions({
+          server: null,  
+          instantUpload: false,  
+          allowMultiple: false,  
+          storeAsFile: true,
+          labelIdle: 'Arrastra tu archivo aquí o <span class="filepond--label-action">explóralo</span>',
+      });
+      
+      document.querySelectorAll('.filepond').forEach(input => {
+        FilePond.create(input);
+    });
+  </script>
+{% endblock %}

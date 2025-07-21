@@ -1,0 +1,58 @@
+{% extends 'Core/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'Core/css/list_view.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="page-header">Selecciona los contenedores</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="table-container">
+            <div class="table-wrapper">
+                <table class="generic-table">
+                    <thead>
+                        <tr>
+                            <th>Seleccionar</th>
+                            <th>Contenedor</th>
+                            <th>BL</th>
+                            <th>Estatus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contenedor in contenedores %}
+                        <tr class="data-row" data-status="blocked">
+                            <td>
+
+                                <input type="checkbox" name="contenedores_seleccionados" value="{{ contenedor }}">
+                            </td>
+                            <td>{{ contenedor }}</td>
+                            <td>{{ bl }}</td>
+                            <td>
+                                <span class="status active">Autorizado</span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center">No hay Contenedores</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <button type="button" id="toggle-all" class="btn btn-secondary" style="margin-right: 20px;">
+            Seleccionar todos
+        </button>
+        <button type="submit" class="btn btn-primary">Crear Solicitud</button>
+    </form>
+</div>
+
+{% block ExtrasJS %}
+<script src="{% static 'Core/js/manejo_checkbox.js' %}"></script>
+{% endblock %}
+{% endblock %}

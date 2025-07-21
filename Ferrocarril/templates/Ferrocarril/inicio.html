@@ -1,0 +1,72 @@
+{% extends "Core/base.html" %}
+{% load static %}
+{% block title %}Ferrocarril - Logipuerto{% endblock %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'Core/css/targets.css' %}">
+{% endblock %} 
+
+{% block content %}
+        
+        <div class="targets-grid targets-count-4">
+            <!-- Target 1: Módulo de Usuarios -->
+            <a href='{% url 'solicitudes:solicitudes_masivas__cliente_padre' request.user.id %}' class='target-card'>
+                <div class="target-content">
+                    <div class="lottie-container" id="lottieUsers">
+                        <div class="lottie-placeholder">
+                            <div class="lottie-placeholder">
+                                <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+                                <dotlottie-player src="https://lottie.host/86dba523-629a-4627-bb43-1fe959011ac2/5Arjrot3aY.lottie" 
+                                background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></dotlottie-player>                           
+                            </div>                        
+                        </div>
+                    </div>
+                    <div class="target-info">
+                        <h2 class="target-title">Visualizacion de solicitudes</h2>
+                        <p class="target-description">Visializa las solicitudes masivas e individuales que haz realizado</p>
+                    </div>
+                    
+                </div>
+                <div class="target-footer">
+                    {% comment %} <span class="target-stats">125 usuarios activos</span> {% endcomment %}
+                    <span class="target-action">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </div>
+            </a>
+            
+            <!-- Target 2: Módulo de Productos -->
+            <a href='{% url 'ferrocarril:ferrocarril_segregaciones' %}' class="target-card">
+                <div class="target-content">
+                    <div class="lottie-container" id="lottieProducts">
+                        <div class="lottie-placeholder">
+                            <div class="lottie-placeholder">
+                                <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+                                <dotlottie-player src="https://lottie.host/dd02d4e1-aa2a-4d9d-9964-26b50becc3f2/ZkNh2oieZX.lottie" background="transparent" 
+                                speed="1" style="width: 250px; height: 250px" loop autoplay></dotlottie-player>                        
+                            </div>                        
+                        </div>
+                    </div>
+                    <div class="target-info">
+                        <h2 class="target-title">Segregacion de contenedores</h2>
+                        <p class="target-description">Sube el excel de los contenedores, los validamos y generamos las solicitudes</p>
+                    </div>
+                </div>
+                <div class="target-footer">
+                    {% comment %} <span class="target-stats">1,240 productos</span> {% endcomment %}
+                    <span class="target-action">
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </div>
+            </a>
+            
+            
+          
+        </div>
+      
+  {% block ExtrasJS %}
+  <script src="{% static 'Core/js/targets.js' %}"></script>
+
+  {% endblock ExtrasJS %}
+  {%endblock%}

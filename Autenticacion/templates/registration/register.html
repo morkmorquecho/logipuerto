@@ -1,0 +1,57 @@
+{% extends 'Core/base.html' %}
+{% load static %}
+{% load MensajesTags %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'Autenticacion/css/register.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+    
+    <div class="container">
+        <div class="login-card">
+            <div class="card-header">
+                <h2>{{titulo}}  </h2>
+            </div>
+            <div class="card-body">
+                {% comment %} <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+
+                        <label for="username">Nombre de usuario</label>
+                        <input type="text" name="username" id="username" class="form-control" 
+                               placeholder="Ingresa el nombre de usuario" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" class="form-control" 
+                               placeholder="Ingrese el correo electronico" required>
+                    </div>
+                    <button type="submit" class="btn">Crear</button>
+                </form> {% endcomment %}
+
+                <form method="post">
+                    <div class="form-group">
+                        {% csrf_token %}
+                        {{ form.as_p }}  <!-- Esto debería mostrar todos los campos -->
+                    </div>
+                    <button type="submit" class="btn">Crear</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% RenderMensajesSweetAlert %}
+
+{% block ExtrasJS %}
+    <script>
+        var mensaje = "{{ mensaje }}";
+    </script>
+    <script src="{% static 'Core/js/sweetalert2.all.min.js' %}"></script>
+    <script src="{% static 'Core/js/SweetAlert2.js' %}"></script>
+{% endblock ExtrasJS %}
+{% endblock %}

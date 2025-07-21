@@ -1,0 +1,131 @@
+{% extends 'Core/base.html' %}
+{% load static %}
+{% load grupo_tags %}
+
+{% block extra_css %}  
+<link rel="stylesheet" href="{% static 'Core/css/list_view.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="page-header">
+        <button onclick="window.history.back()" style="border: none; background: none; cursor: pointer;">
+            <i class="fas fa-arrow-left" style="font-size: 20px;"></i>
+        </button>
+        
+        <h2>Lista de Solicitudes Individuales</h2>
+    </div>
+
+    <div class="filters-section">
+        <form method="get" class = form-field input>
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="searchInput" name="q" class="form-control" placeholder="Buscar por Contenedor, BL..." value="{{ request.GET.q }}">
+                    <button type="submit" class="search-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <form method="GET" action="" class="filters-container">
+            <div class="filters-container">
+                <!-- Filtro por estado de solicitud -->
+                <select class="filter-select" id="countryFilter" name="Estado">
+                    <option value="">Estado</option>
+                    <option value="Nueva">Nueva</option>
+                    <option value="Autorizado">Autorizado</option>
+                </select>
+
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <button class="btn btn-secondary" id="clearFilters">Limpiar</button>
+            </div>
+        </form>
+    </div>  
+
+    <div class="table-container">
+        <div class="table-wrapper">
+            <table class="generic-table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Estado</th>
+                        {% if request.user|has_group:'Administrador' or request.user|has_group:'Logipuerto' %}
+                            <th>Estatus N4</th>
+                        {% endif %}
+                        <th>Contenedor</th>
+                        <th>Tipo/Tamaño</th>
+                        <th>BL</th>
+                        <th>Viaje</th>
+                        <th>Destino</th>
+                        <th>Buque</th>
+                        <th>ETA</th>
+                        <th>IMO</th>
+                        <th>Reefer</th>
+                        <th>OOG</th>
+                        {% if request.user|has_group:'Administrador' or request.user|has_group:'Logipuerto' %}
+                        <th>Accion</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for solicitud in solicitudes_individuales %}
+                        <tr class="data-row" data-status="blocked">
+                            <td>{{ solicitud.id }}</td>
+                            {% if solicitud.estado != 'Nueva' %}
+                                <td><span class="status-badge status-active">{{ solicitud.estado }}</span></td>
+                            {%else%}
+                                <td><span class="status-badge status-blocked">{{ solicitud.estado }}</span></td>
+                            {%endif%}
+
+                            {% if request.user|has_group:'Administrador' or request.user|has_group:'Logipuerto' %}
+                                {% if solicitud.estatus_n4 == 'Nueva' %}
+                                    <td><span class="status-badge status-blocked">{{ solicitud.estatus_n4 }}</span></td>
+                                {%elif solicitud.estatus_n4 == 'Pre-Aviso'%}
+                                    <td><span class="status-badge status-pending">{{ solicitud.estatus_n4 }}</span></td>
+                                {% else %}
+                                    <td><span class="status-badge status-active">{{ solicitud.estatus_n4 }}</span></td>
+                                {%endif%}
+                            {% endif %}
+                            <td>{{ solicitud.contenedor }}</td>
+                            <td>{{ solicitud.tipo_tamaño }}</td>
+                            <td>{{ solicitud.bl|default:"Pendiente" }}</td>
+                            <td>{{ solicitud.viaje|default:"Pendiente" }}</td>
+                            <td>{{ solicitud.destino}}</td>
+                            <td>{{ solicitud.buque|default:"Pendiente" }}</td>
+                            <td>{{ solicitud.eta|date:"d/m/Y-H:i"|default:"Pendiente" }}</td>
+                            <td>{% if solicitud.imo %}<i class="fas fa-check text-success"></i>{% else %}<i class="fas fa-times text-danger"></i>{% endif %}</td>
+                            <td>{% if solicitud.esReefer %}<i class="fas fa-check text-success"></i>{% else %}<i class="fas fa-times text-danger"></i>{% endif %}</td>
+                            <td>{{ solicitud.isOOG|default:"Pendiente" }}</td>
+
+                            {% if request.user|has_group:'Administrador' or request.user|has_group:'Logipuerto' %}
+                                <td class="actions-container">
+                                    <a href="{% url 'solicitudes:solicitudes_individual_cancelar' solicitud.id %}" class="btn delete-btn action-btn" title="Cancelar solicitud">
+                                        <i class="fas fa-ban" title="Cancelar"></i>
+                                    </a>                                
+                                </td>
+                            {% endif %}
+
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center">No hay solicitudes</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% block ExtrasJS %}
+
+{% endblock ExtrasJS %}
+
+{% endblock %}

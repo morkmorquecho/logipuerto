@@ -1,0 +1,6 @@
+<form method="post">
+    {% csrf_token %}
+    <p>¿Estás seguro de que quieres eliminar "{{ object }}"?</p>
+    <button type="submit">Sí, eliminar</button>
+    <a href="{% url 'lista_libros' %}">Cancelar</a>
+  </form>

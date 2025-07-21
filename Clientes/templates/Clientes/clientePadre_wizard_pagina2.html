@@ -1,0 +1,57 @@
+{% extends 'Core/base.html' %}
+{% load static %}
+{% load MensajesTags %}
+{% comment %} {% load countries %} {% endcomment %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'Core/css/form.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="container">
+        <div class="login-card">
+            <div class="card-header">
+                <h2>Dirección - Paso 2 de 3</h2>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ wizard.management_form }}
+                    {{ wizard.form.as_p }}
+
+
+                        <div class="button-group">
+                            <button type="submit" name="wizard_goto_step" value="{{ wizard.steps.prev }}" class="btn btn-secondary">
+                                Anterior
+                            </button>
+                            {% if wizard.steps.next %}
+                                <button type="submit" class="btn">Siguiente</button>
+                            {% else %}
+                                <button type="submit" class="btn">Finalizar</button>
+                            {% endif %}
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% block ExtrasJS %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2-estado').select2({
+                tags: true,
+                placeholder: 'Escribe o selecciona un estado',
+                allowClear: true,
+                width: 'resolve'
+            });
+        });
+    </script>{% endblock %}
+{% endblock %}

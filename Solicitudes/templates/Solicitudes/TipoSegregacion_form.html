@@ -1,0 +1,32 @@
+{% extends 'Core/base.html' %}
+{% load static %}
+{% load MensajesTags %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'Core/css/form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="container">
+        <div class="login-card">
+            <div class="card-header">
+                <h2>Crea un Catalogo de Tipo de Segregacion</h2>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn">Guardar</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% block ExtrasJS %}
+
+{% endblock ExtrasJS %}
+{% endblock %}

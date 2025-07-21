@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% comment %} <title>Pantalla de Carga</title> {% endcomment %}
+    <link rel="stylesheet" href="carga.css">
+</head>
+<body>
+    <!-- Pantalla de carga siempre visible -->
+    <div id="loading-wrapper" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:white; z-index:9999; align-items:center; justify-content:center;">
+        <div class="loading-overlay show" id="loadingScreen">
+            <div class="loading-container">
+                <!-- Contenedor para Lottie -->
+                <div class="lottie-container" id="loadingLottie"></div>
+                
+                <!-- Texto de carga -->
+                <div class="loading-text">
+                    <h2 id="loadingTitle">Cargando...</h2>
+                    <p id="loadingMessage">Por favor espera un momento</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para Lottie -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+    <script>
+        // Inicializar animación Lottie
+        document.addEventListener('DOMContentLoaded', function () {
+            const lottieContainer = document.getElementById('loadingLottie');
+            try {
+                lottie.loadAnimation({
+                    container: lottieContainer,
+                    loop: true,
+                    autoplay: true,
+                    path: 'https://lottie.host/bfa5796b-ecb6-418a-8f67-e7f184d678f3/0wcSGFEvv9.json'
+                });
+            } catch (error) {
+                console.warn('Error inicializando Lottie:', error);
+            }
+        });
+    </script>
+</body>
+</html>

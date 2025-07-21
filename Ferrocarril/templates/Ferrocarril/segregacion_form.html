@@ -1,0 +1,56 @@
+{% extends "Core/base.html" %}
+{% load static %}
+{% block title %}Segregacion - Logipuerto{% endblock %}
+{% load MensajesTags %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'Core/css/form.css' %}">
+<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+
+{% endblock %} 
+
+{% block content %}
+<div class="form-container">
+    <div class="container">
+        <div class="login-card">
+          
+            <div class="card-header">
+                <h2>Sube el excel y escoge el catalogo</h2>
+            </div>
+
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn">Enviar</button>
+                </form>
+            </div>
+
+            {% RenderMensajesSweetAlert %}
+
+        </div>
+    </div>
+</div>
+
+
+<script>        
+  var mensaje = "{{ mensaje }}";
+</script>
+<script src="{% static 'Core/js/sweetalert2.all.min.js' %}"></script>
+<script src="{% static 'Core/js/SweetAlertTop.js' %}"></script>
+<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+
+<script>
+    FilePond.setOptions({
+        server: null,  
+        instantUpload: false,  
+        allowMultiple: false,  
+        storeAsFile: true,
+        labelIdle: 'Arrastra tu archivo aquí o <span class="filepond--label-action">explóralo</span>',
+    });
+    
+    FilePond.create(document.querySelector('.filepond'));
+</script>
+
+  {%endblock%}

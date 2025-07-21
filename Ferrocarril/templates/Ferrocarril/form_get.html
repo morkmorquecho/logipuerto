@@ -1,0 +1,41 @@
+{% extends "Core/base.html" %}
+{% load static %}
+{% block title %}TransporteFerro - Logipuerto{% endblock %}
+{% load MensajesTags %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'Core/css/form.css' %}">
+
+{% endblock %} 
+
+{% block content %}
+<div class="form-container">
+    <div class="container">
+        <div class="login-card">
+          
+            <div class="card-header">
+                <h2>Ingresa el bl para visualizar los contenedores</h2>
+            </div>
+
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn">Consultar</button>
+                </form>
+            </div>
+
+            {% RenderMensajesSweetAlert %}
+
+        </div>
+    </div>
+</div>
+
+
+<script>        
+  var mensaje = "{{ mensaje }}";
+</script>
+<script src="{% static 'Core/js/sweetalert2.all.min.js' %}"></script>
+<script src="{% static 'Core/js/SweetAlertTop.js' %}"></script>
+{% endblock %} 

@@ -1,0 +1,37 @@
+    {% extends 'Core/base.html' %}
+    {% load static %}
+    {% load MensajesTags %}
+
+    {% block extra_css %}
+<link rel="stylesheet" href="{% static 'Core/css/form.css' %}">
+    {% endblock %}
+
+    {% block content %}
+    <div class="form-container">
+        <div class="container">
+            <div class="login-card">
+                <div class="card-header">
+                    <h2>Información General - Paso 1 de 3</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ wizard.management_form }}
+                        {{ wizard.form.as_p }}
+                        {% if wizard.steps.next %}
+                            <button type="submit" class="btn">Siguiente</button>
+                        {% else %}
+                            <button type="submit" class="btn">Finalizar</button>
+                        {% endif %}
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% block ExtrasJS %}
+
+    {% endblock ExtrasJS %}
+    {% endblock %}

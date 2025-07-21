@@ -1,3 +1,22 @@
+from datetime import datetime
+import os
+import environ
+import sentry_sdk 
+from sentry_sdk.integrations.django import DjangoIntegration
+
+
+sentry_sdk.init(
+    # dsn="https://78c355b7d4bce829bbe860400aa26734@o4509589590245376.ingest.us.sentry.io/4509589591621632",
+    dsn="",
+    # Add data like request headers and IP for users,
+    # see https://docs.sentry.io/platforms/python/data-management/data-collected/ for more info
+    send_default_pii=True,
+    traces_sample_rate=1.0
+)
+
+# Inicializar variables de ambiente
+env = environ.Env()
+environ.Env.read_env()
 """
 Django settings for Logipuerto2 project.
 
@@ -29,26 +48,33 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '192.168.137.1',
-    '172.20.81.29',  # <-- Agrega esta línea
+    '172.20.81.29', 
+    'cmv31105',
 ]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'Autenticacion',
+    'Ferrocarril',
+    'Solicitudes',
+    'flags',
+    'django_select2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Autenticacion',
     'Core', 
     'crispy_forms',
     'crispy_bootstrap5',
     'Clientes',
-    'Servicios',
-]
+    'formtools',
+    'django_countries',
+    'AgenciamientoAduanal',
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,7 +91,7 @@ ROOT_URLCONF = 'Logipuerto2.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,24 +109,37 @@ WSGI_APPLICATION = 'Logipuerto2.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'mssql',  # Usa 'sql_server.pyodbc' si utilizas django-pyodbc-azure
-#         'NAME': 'Logipuerto_2',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mssql',  
+#         'NAME': 'Logipuerto_operaciones',
 #         'USER': 'sa',
 #         'PASSWORD': 'Sabino11.',
 #         'HOST': 'PCD010',
 #         'OPTIONS': {
-#             'driver': 'ODBC Driver 17 for SQL Server',  # Especifica tu versión de driver
+#             'driver': 'ODBC Driver 17 for SQL Server',  
 #         },
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'mssql',  
+        'NAME': 'Logipuerto_operaciones',
+        'USER': 'sa',
+        'PASSWORD': 'Desarrollo80',
+        'HOST': 'cmv31105',
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',  
+        },
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -124,7 +163,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-mx'
 
 TIME_ZONE = 'UTC'
 
@@ -137,20 +176,104 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [
+    BASE_DIR / "Core/static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'inicio'  # A dónde redirigir después de iniciar sesión
-LOGOUT_REDIRECT_URL = 'login'  # A dónde redirigir después de cerrar sesión
+LOGIN_REDIRECT_URL = 'core:inicio' 
+LOGOUT_REDIRECT_URL = 'login'  
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = ["bootstrap5"] 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGIN_URL = '/autenticacion/login/'
 
-LOGOUT_REDIRECT_URL = '/'
+MEDIA_URL = '/media/'   
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'mork.morquecho@gmail.com'
+EMAIL_HOST_PASSWORD = 'clgo quui wceq kzeh'
+DEFAULT_FROM_EMAIL = 'mork.morquecho@gmail.com'
+
+COUNTRIES_FLAG_URL = 'flags/16x10/{code}.png'
+
+
+# Web Services
+N4TRAINNING = "http://172.20.81.170:9081/apex/"
+N4DESARROLLO = "http://172.20.81.170:9081/apex/"
+N4PRODUCCION = "http://172.20.81.170:9081/apex/"
+N4BILLING = "http://172.20.81.171:11080/billing/"
+
+USER_N4API = env('N4_USER_N4API')
+PASSWORD_N4API = env('N4_PASSWORD_N4API')
+
+# Ruta base 
+LOG_BASE_PATH = r"C:\Users\mtirado\Desktop\Logipuerto"
+# LOG_BASE_PATH = r"C:\Users\mtirado\Desktop"
+
+def CrearControladores(folder, filename, level='INFO'):
+    log_path = os.path.join(LOG_BASE_PATH, folder, f"{filename}.log")
+    os.makedirs(os.path.dirname(log_path), exist_ok=True)
+    
+    return {
+        'level': level,
+        'class': 'logging.handlers.TimedRotatingFileHandler',
+        'filename': log_path,
+        'when': 'midnight',
+        'backupCount': 30,
+        'formatter': 'verbose',
+        'encoding': 'utf-8',
+        'utc': False,
+        'delay': True  
+    }
+
+# Configuración más DRY
+LOGGER_CONFIGS = [
+    ('Clientes', 'Clientes'),
+    ('Solicitudes', 'Solicitudes'),
+    ('Ferrocarril', 'Ferrocarril'),
+]
+
+handlers = {'general': CrearControladores('General', 'general'),
+}
+
+loggers = {  '': {  
+                    'handlers': ['general'],
+                    'level': 'INFO',
+                    'propagate': False,
+                }
+}
+
+for folder, name in LOGGER_CONFIGS:
+    handlers[name] = CrearControladores(folder, name)
+    loggers[name] = {
+        'handlers': [name],
+        'level': 'INFO',
+        'propagate': False,
+    }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{asctime}] [{name}:{lineno}] [{filename}] - {message}\n',
+            'style': '{',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+    },
+    'handlers': handlers,
+    'loggers': loggers,
+}

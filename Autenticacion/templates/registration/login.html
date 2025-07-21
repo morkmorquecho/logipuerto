@@ -1,3 +1,4 @@
+
 {% load static %}
 {% load MensajesTags %}
 
@@ -55,7 +56,12 @@
                 {%endif%}
 
                 <div class="links">
-                    <p><a href="#">¿Olvidaste tu contraseña?</a></p>
+                    <form action="{% url 'autenticacion:usuarios_password_reset' %}" method="post" class="password-reset-form">
+                        {% csrf_token %}
+                        <button type="submit" class="forgot-password-btn" aria-label="Recuperar contraseña">
+                            <span>¿Olvidaste tu contraseña?</span>
+                        </button>
+                    </form>
                 </div>
 
                 <script>
