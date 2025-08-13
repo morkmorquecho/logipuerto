@@ -59,7 +59,6 @@ INSTALLED_APPS = [
     'Autenticacion',
     'Ferrocarril',
     'Solicitudes',
-    'flags',
     'django_select2',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -68,8 +67,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Core', 
-    'crispy_forms',
-    'crispy_bootstrap5',
     'Clientes',
     'formtools',
     'django_countries',
@@ -128,15 +125,28 @@ WSGI_APPLICATION = 'Logipuerto2.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mssql',  
+#         'NAME': 'Logipuerto_operaciones',
+#         'USER': 'sa',
+#         'PASSWORD': 'Desarrollo80',
+#         'HOST': 'cmv31105',
+#         'OPTIONS': {
+#             'driver': 'ODBC Driver 17 for SQL Server',  
+#         },
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'mssql',  
+        'ENGINE': 'mssql',
         'NAME': 'Logipuerto_operaciones',
-        'USER': 'sa',
-        'PASSWORD': 'Desarrollo80',
-        'HOST': 'cmv31105',
+        'HOST': 'LAPTOPMORQUECHO\MSSQLSERVER02', 
         'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',  
+            'driver': 'ODBC Driver 17 for SQL Server',
+            'trusted_connection': 'yes',  # <-- Autenticación de Windows
         },
     }
 }
@@ -216,8 +226,11 @@ N4DESARROLLO = "http://172.20.81.170:9081/apex/"
 N4PRODUCCION = "http://172.20.81.170:9081/apex/"
 N4BILLING = "http://172.20.81.171:11080/billing/"
 
-USER_N4API = env('N4_USER_N4API')
-PASSWORD_N4API = env('N4_PASSWORD_N4API')
+# USER_N4API = env('N4_USER_N4API')
+# PASSWORD_N4API = env('N4_PASSWORD_N4API')
+
+USER_N4API = "env('N4_USER_N4API')"
+PASSWORD_N4API = "env('N4_PASSWORD_N4API')"
 
 # Ruta base 
 LOG_BASE_PATH = r"C:\Users\mtirado\Desktop\Logipuerto"
@@ -240,40 +253,40 @@ def CrearControladores(folder, filename, level='INFO'):
     }
 
 # Configuración más DRY
-LOGGER_CONFIGS = [
-    ('Clientes', 'Clientes'),
-    ('Solicitudes', 'Solicitudes'),
-    ('Ferrocarril', 'Ferrocarril'),
-]
+# LOGGER_CONFIGS = [
+#     ('Clientes', 'Clientes'),
+#     ('Solicitudes', 'Solicitudes'),
+#     ('Ferrocarril', 'Ferrocarril'),
+# ]
 
-handlers = {'general': CrearControladores('General', 'general'),
-}
+# handlers = {'general': CrearControladores('General', 'general'),
+# }
 
-loggers = {  '': {  
-                    'handlers': ['general'],
-                    'level': 'INFO',
-                    'propagate': False,
-                }
-}
+# loggers = {  '': {  
+#                     'handlers': ['general'],
+#                     'level': 'INFO',
+#                     'propagate': False,
+#                 }
+# }
 
-for folder, name in LOGGER_CONFIGS:
-    handlers[name] = CrearControladores(folder, name)
-    loggers[name] = {
-        'handlers': [name],
-        'level': 'INFO',
-        'propagate': False,
-    }
+# for folder, name in LOGGER_CONFIGS:
+#     handlers[name] = CrearControladores(folder, name)
+#     loggers[name] = {
+#         'handlers': [name],
+#         'level': 'INFO',
+#         'propagate': False,
+#     }
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '[{asctime}] [{name}:{lineno}] [{filename}] - {message}\n',
-            'style': '{',
-            'datefmt': '%Y-%m-%d %H:%M:%S',
-        },
-    },
-    'handlers': handlers,
-    'loggers': loggers,
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'verbose': {
+#             'format': '[{asctime}] [{name}:{lineno}] [{filename}] - {message}\n',
+#             'style': '{',
+#             'datefmt': '%Y-%m-%d %H:%M:%S',
+#         },
+#     },
+#     'handlers': handlers,
+#     'loggers': loggers,
+# }

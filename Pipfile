@@ -1,0 +1,30 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
+
+[packages]
+django = "*"
+django-environ = "*"
+sentry-sdk = "*"
+flags = "*"
+django-select2 = "*"
+django-formtools = "*"
+django-countries = "*"
+mssql-django = "*"
+zeep = "*"
+xmltodict = "*"
+openpyxl = "*"
+
+[scripts]
+r = "python manage.py runserver"
+m = "python manage.py migrate"
+mm = "python manage.py makemigrations"
+su = "python manage.py createsuperuser"
+sh = "python manage.py shell"
+cs = "python manage.py collectstatic --noinput"
